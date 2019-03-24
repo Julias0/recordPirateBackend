@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Test of replay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js"></script>
+</head>
+<body>
+    <label for="">input1</label>
+    <input type="text">
+    <label for="">input2</label>
+    <input type="text">
+    <label for="">input3</label>
+    <input type="text">
+    <label for="">input4</label>
+    <input type="text">
+    <label for="">input5</label>
+    <input type="text">
+    <label for="">input6</label>
+    <input type="text">
+    <label for="">input7</label>
+    <input type="text">
+    <label for="">input8</label>
+    <input type="text">
+    <label for="">input9</label>
+    <input type="text">
+    <label for="">input10</label>
+    <input type="text">
+    <button>Submit!!!</button>
+    <script>
+        let events = [];
+
+        rrweb.record({
+        emit(event) {
+            // push event into the events array
+            events.push(event);
+        },
+        });
+
+        // this function will send events to the backend and reset the events array
+        function save() {
+        const stringifiedEvents = JSON.stringify({ events });
+        events = [];
+        fetch('http://localhost:5000/event', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: 'dhar',
+                event: stringifiedEvents,
+                createdOn: (new Date()).toString()
+            })
+        });
+        }
+
+        // save events every 10 seconds
+        setInterval(save, 30 * 1000);
+    </script>
+</body>
+</html>
