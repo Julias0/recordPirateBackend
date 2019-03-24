@@ -17,7 +17,7 @@ class UserModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def get_dict(self):
+    def json(self):
         return {
             "username": self.username,
             "password": self.password,

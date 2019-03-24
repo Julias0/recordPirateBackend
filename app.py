@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
+from flask_cors import CORS
 
 from Config.Security import authenticate, identity
 from Resources.UserResource import UserRegister
+from Resources.EventResource import EventResource
 from Model.UserModel import UserModel
 
 app = Flask(__name__)
@@ -17,6 +19,7 @@ api = Api(app)
 
 jwt = JWT(app, authenticate, identity)
 
+cors = CORS(app)
 
 @app.before_first_request
 def create_tables():
@@ -30,6 +33,7 @@ def create_tables():
 
 
 api.add_resource(UserRegister, '/register')
+api.add_resource(EventResource, '/event')
 
 if __name__ == '__main__':
     from Config.db import db

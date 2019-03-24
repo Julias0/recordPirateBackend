@@ -21,10 +21,14 @@ class EventModel(db.Model):
     def json(self):
         return {
             "id": self.id,
-            "event": self.name,
+            "event": self.event,
             "createdOn": self.createdOn,
-            "user": self.user.get_dict()
+            "user": self.user.json()
         }
+
+    @classmethod
+    def find_session(cls, user, createdOn):
+        return cls.query.filter_by(user_id=user.id).filter_by(createdOn=createdOn).first()
 
     @classmethod
     def get_all_events(cls):
